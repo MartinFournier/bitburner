@@ -21,12 +21,15 @@ Used to synchronize the achievements info in steamworks to the game's data.json
 node fetch-steam-achievements-data.js DEVKEYDEVKEYDEVKEYDEVKEY
 ```
 
-## Changelog script
+## Fetch Changelog
 
-Used to generate a basic git commit log (in markdown) between commit A & commit B
+Used to generate a changelog of merged pull requests & commits between A & B.
+The key is a personnal access token, from https://github.com/settings/tokens.
+It requires the "gist" scope as the result is pushed to a secret gist.
 
 **Usage**
 ```sh
-# Will default to HEAD if second is not specified.
-./tools/changelog.sh 9a0062b 05cbc25
+cd ./tools/fetch-changelog
+npm install
+node index.js --key=GITHUB-TOKEN-HERE --from=31ebdbb139981a604bd0e8fc1e364916762e11b9 --to=07fe3c1906b569799652cd1f7a36de2abe306802
 ```

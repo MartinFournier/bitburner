@@ -33,3 +33,15 @@ cd ./tools/fetch-changelog
 npm install
 node index.js --key=GITHUB-TOKEN-HERE --from=31ebdbb139981a604bd0e8fc1e364916762e11b9 --to=07fe3c1906b569799652cd1f7a36de2abe306802
 ```
+
+## Bump Version
+
+Used to update the game's various version identifier.
+Requires pandoc installed to convert .md to .rst
+
+**Usage**
+```sh
+cd ./tools/bump-version
+npm install
+node index.js --version=1.10.3 --versionNumber=10 < changes.md
+```

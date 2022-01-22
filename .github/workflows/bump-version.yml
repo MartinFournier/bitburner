@@ -1,0 +1,83 @@
+name: Bump BitBurner Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+      versionNumber:
+        description: 'Version Number'
+        required: true
+      changelog:
+        description: 'Changelog Link (RAW)'
+        default: ''
+      buildApp:
+        description: 'Include Application Build'
+        type: boolean
+        default: 'false'
+        required: true
+      buildDoc:
+        description: 'Include Documentation Build'
+        type: boolean
+        default: 'false'
+        required: true
+
+
+jobs:
+  bumpVersion:
+    name: Bump Version
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Install pandoc
+        run: sudo apt-get install -y pandoc
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js 16.13.1
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.13.1
+          cache: 'npm'
+      - name: Install NPM dependencies for version updater
+        working-directory: ./tools/bump-version
+        run: npm ci
+      - name: Bump version & update changelogs
+        working-directory: ./tools/bump-version
+        run: |
+          curl ${{ github.event.inputs.changelog }} > changes.md
+          node index.js --version=${{ github.event.inputs.version }} --versionNumber=${{ github.event.inputs.versionNumber }} < changes.md
+      - name: Install NPM dependencies for app
+        if: ${{ github.event.inputs.buildApp == 'true' || github.event.inputs.buildDoc == 'true' }}
+        run: npm ci
+      - name: Build App
+        if: ${{ github.event.inputs.buildApp == 'true' }}
+        run: npm run build
+      - name: Build Doc
+        if: ${{ github.event.inputs.buildDoc == 'true' }}
+        run: npm run doc
+      - name: Commit Files
+        id: commit
+        run: |
+          git config --global user.name "GitHub"
+          git config --global user.email "noreply@github.com"
+          git checkout -b bump/v${{ github.event.inputs.version }}
+          git add -A
+          echo "Bump version to v${{ github.event.inputs.version }}" > commitmessage.txt
+          echo "" >> commitmessage.txt
+          cat ./tools/bump-version/changes.md >> commitmessage.txt
+          git commit -F commitmessage.txt
+          git push -u origin bump/v${{ github.event.inputs.version }}
+      - name: Create Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --base "${{ github.ref_name }}" \
+            --head "bump/v${{ github.event.inputs.version }}" \
+            --title "Bump version to v${{ github.event.inputs.version }}" \
+            --body-file ./tools/bump-version/changes.md

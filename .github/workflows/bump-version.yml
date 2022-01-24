@@ -74,17 +74,12 @@ jobs:
           cat ./tools/bump-version/changes.md >> commitmessage.txt
           git commit -F commitmessage.txt
           git push -u origin bump/v${{ github.event.inputs.version }}
+          rm commitmessage.txt
       - name: Create Pull Request
-        run: |
-          curl \
-            -X POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/$GITHUB_REPOSITORY_OWNER/$GITHUB_REPOSITORY/pulls \
-            -d '{"head":"bump/v${{ github.event.inputs.version }}","base":"$GITHUB_REF_NAME","title":"Bump version to v${{ github.event.inputs.version }}","body: "$(cat commitmessage.txt)"}'
-      # - name: Create Pull Request
-      #   uses: peter-evans/create-pull-request@v3
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     title: "Bump version to v${{ github.event.inputs.version }}"
-      #     body: "${{ steps.COMMIT_STEP.commitMessage }}"
-      #     run: echo ${{ steps.COMMIT_STEP.commitMessage }}
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Bump version to v${{ github.event.inputs.version }}"
+          body: ${{ github.event.commits[0].message }}
+          branch: bump/v${{ github.event.inputs.version }}
+          delete-branch: true

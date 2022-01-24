@@ -82,4 +82,5 @@ jobs:
           title: "Bump version to v${{ github.event.inputs.version }}"
           body: ${{ github.event.commits[0].message }}
           branch: bump/v${{ github.event.inputs.version }}
+          base: dev
           delete-branch: true

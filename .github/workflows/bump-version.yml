@@ -76,11 +76,10 @@ jobs:
           git push -u origin bump/v${{ github.event.inputs.version }}
           rm commitmessage.txt
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: repo-sync/pull-request@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: "Bump version to v${{ github.event.inputs.version }}"
-          body: ${{ github.event.commits[0].message }}
-          branch: bump/v${{ github.event.inputs.version }}
-          base: dev
-          delete-branch: true
+          source_branch: "bump/v${{ github.event.inputs.version }}"
+          destination_branch: "dev"
+          pr_title: "Bump version to v${{ github.event.inputs.version }}"
+          pr_body: ${{ github.event.commits[0].message }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}

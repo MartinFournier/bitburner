@@ -111,7 +111,7 @@ export const CONSTANTS: {
   TotalNumBitNodes: number;
   LatestUpdate: string;
 } = {
-  VersionString: "1.4.0",
+  VersionString: "1.8.0",
   VersionNumber: 10,
 
   // Speed (in ms) at which the main loop is updated
@@ -273,22 +273,7 @@ export const CONSTANTS: {
   TotalNumBitNodes: 24,
 
   LatestUpdate: `
-    v1.4.0 - 2022-01-18 Sharing is caring
-    -------------------------------------
+    v1.8.0 - Big test -------------------------------  ** UI ** * Stuff * Stuff 2 * Stuff 3  ** Bug fix ** Nerf n00dles
 
-    ** Computer sharing **
-
-    * A new mechanic has been added, it's is invoked by calling the new function 'share'.
-      This mechanic helps you farm reputation faster.
-
-    ** gang **
-
-    * Installing augs means losing a little bit of ascension multipliers.
-
-    ** There's more but I'm going to write it later. **
-
-    ** Misc. **
-
-    * Nerf noodle bar.
 `,
 };

@@ -76,10 +76,15 @@ jobs:
           git push -u origin bump/v${{ github.event.inputs.version }}
           rm commitmessage.txt
       - name: Create Pull Request
-        uses: repo-sync/pull-request@v2
-        with:
-          source_branch: "bump/v${{ github.event.inputs.version }}"
-          destination_branch: "dev"
-          pr_title: "Bump version to v${{ github.event.inputs.version }}"
-          pr_body: ${{ github.event.commits[0].message }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/pulls \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+              "head": "bump/v${{ github.event.inputs.version }}",
+              "base":"$GITHUB_REF_NAME", \
+              "title": "Bump version to v${{ github.event.inputs.version }}" \
+              "body: "$(cat commitmessage.txt)"
+            }' \
+          --fail

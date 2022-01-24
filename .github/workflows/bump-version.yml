@@ -28,9 +28,9 @@ jobs:
   bumpVersion:
     name: Bump Version
     runs-on: ubuntu-latest
-    # permissions:
-    #   contents: write
-    #   pull-requests: write
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Install pandoc
         run: sudo apt-get install -y pandoc
@@ -63,9 +63,10 @@ jobs:
         if: ${{ github.event.inputs.buildDoc == 'true' }}
         run: npm run doc
       - name: commit
+        id: COMMIT_STEP
         run: |
-          git config --global user.name "${GITHUB_ACTOR}"
-          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --global user.name "GitHub"
+          git config --global user.email "noreply@github.com"
           git checkout -b bump/v${{ github.event.inputs.version }}
           git add -A
           echo "Bump version to v${{ github.event.inputs.version }}" > commitmessage.txt
@@ -73,13 +74,11 @@ jobs:
           cat ./tools/bump-version/changes.md >> commitmessage.txt
           git commit -F commitmessage.txt
           git push -u origin bump/v${{ github.event.inputs.version }}
-      - name: GitHub Action for creating Pull Requests
-        uses: devops-infra/action-pull-request@v0.4.2
+          echo "::set-output name=commitMessage::$(cat commitmessage.txt)"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          title: ${{ github.event.commits[0].message }}
-          template: .github/VERSION_BUMP_TEMPLATE
-          old_string: "**Write your description here**"
-          new_string: ${{ github.event.commits[0].message }}
-          get_diff: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Bump version to v${{ github.event.inputs.version }}"
+          body: "{{ steps.COMMIT_STEP.commitMessage }}"
           target_branch: 'dev'

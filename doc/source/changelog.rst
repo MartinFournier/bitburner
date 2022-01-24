@@ -3,6 +3,100 @@
 Changelog
 =========
 
+[draft] v1.x.x - 2022-01-21
+---------------------------
+
+\*\* Information \*\*
+
+Modifications included between 2022-01-16 and 2022-01-21 (f9daf5d to
+07fe3c1).
+
+`See Pull Requests on
+GitHub <https://github.com/search?q=user%3Adanielyxie%20repo%3Abitburner%20is%3Apr%20is%3Amerged%20merged%3A%222022-01-16T22%3A00%3A06.000Z..2022-01-21T04%3A53%3A33.000Z%22>`__
+
+\*\* Merged Pull Requests \*\*
+
+-  update to prevent scam (by @hydroflame)PR
+   #\ `2730 <https://github.com/danielyxie/bitburner/pull/2730>`__
+-  RM caching (by @hydroflame)PR
+   #\ `2724 <https://github.com/danielyxie/bitburner/pull/2724>`__
+-  Add game version in document.title (by @MartinFournier)PR
+   #\ `2720 <https://github.com/danielyxie/bitburner/pull/2720>`__
+-  Fixed Formatting Issue with Coding Contract Documentation (by
+   @JosephDavidTalbot)PR
+   #\ `2715 <https://github.com/danielyxie/bitburner/pull/2715>`__
+-  Change “import” to “important” in hackers-starting-handbook.lit (by
+   @JohnnyUrosevic)PR
+   #\ `2713 <https://github.com/danielyxie/bitburner/pull/2713>`__
+-  Declaring the script variable in the NS2 example (by @Meowdoleon)PR
+   #\ `2704 <https://github.com/danielyxie/bitburner/pull/2704>`__
+-  Update scriptKill example (by @nathangiusti)PR
+   #\ `2696 <https://github.com/danielyxie/bitburner/pull/2696>`__
+-  Remove console spamming from CalculateShareMult (by @SagePtr)PR
+   #\ `2695 <https://github.com/danielyxie/bitburner/pull/2695>`__
+-  fix asleep (by @hydroflame)PR
+   #\ `2694 <https://github.com/danielyxie/bitburner/pull/2694>`__
+-  Use background primary for ``<body>`` (by @nickofolas)PR
+   #\ `2693 <https://github.com/danielyxie/bitburner/pull/2693>`__
+-  Add script to generate a markdown changelog (by @MartinFournier)PR
+   #\ `2692 <https://github.com/danielyxie/bitburner/pull/2692>`__
+-  v1.4 (by @hydroflame)PR
+   #\ `2691 <https://github.com/danielyxie/bitburner/pull/2691>`__
+-  Fix Singularity focus arg issues (by @nickofolas)PR
+   #\ `2689 <https://github.com/danielyxie/bitburner/pull/2689>`__
+-  Script Editor Improvements (by @nickofolas)PR
+   #\ `2684 <https://github.com/danielyxie/bitburner/pull/2684>`__
+-  Handle ‘export default’ in static RAM calculation (by @theit8514)PR
+   #\ `2683 <https://github.com/danielyxie/bitburner/pull/2683>`__
+-  Update sourcefiles.rst (by @theit8514)PR
+   #\ `2682 <https://github.com/danielyxie/bitburner/pull/2682>`__
+-  Fix formatting of respect needed on gang UI (by @attrib)PR
+   #\ `2680 <https://github.com/danielyxie/bitburner/pull/2680>`__
+-  Change job shortcut test to match sidebar item (by @MartinFournier)PR
+   #\ `2679 <https://github.com/danielyxie/bitburner/pull/2679>`__
+-  Fix CI step label for tests (by @tvanderpol)PR
+   #\ `2677 <https://github.com/danielyxie/bitburner/pull/2677>`__
+-  Add Formulas.exe on start of bitnode 5 (by @TheMas3212)PR
+   #\ `2676 <https://github.com/danielyxie/bitburner/pull/2676>`__
+-  Fix formatting lost in merge commit (by @nickofolas)PR
+   #\ `2674 <https://github.com/danielyxie/bitburner/pull/2674>`__
+-  Add tooltips on sidebar icons when collapsed (by @MartinFournier)PR
+   #\ `2673 <https://github.com/danielyxie/bitburner/pull/2673>`__
+-  Keep the sidebar opened or closed on reload (by @MartinFournier)PR
+   #\ `2672 <https://github.com/danielyxie/bitburner/pull/2672>`__
+-  Fix ns.tail() behaviour for multiple calls (by @gianfun)PR
+   #\ `2671 <https://github.com/danielyxie/bitburner/pull/2671>`__
+-  Shortcuts now check to see if feature is unlocked (by
+   @MartinFournier)PR
+   #\ `2668 <https://github.com/danielyxie/bitburner/pull/2668>`__
+-  Add check for hash capacity > 0 for MAX_CACHE (by @MartinFournier)PR
+   #\ `2667 <https://github.com/danielyxie/bitburner/pull/2667>`__
+-  Remove duplicated ‘cost’ keyword for RAM cost. (by @MartinFournier)PR
+   #\ `2666 <https://github.com/danielyxie/bitburner/pull/2666>`__
+-  Add ns.ui.getGameInfo() to retrieve game version (by
+   @MartinFournier)PR
+   #\ `2665 <https://github.com/danielyxie/bitburner/pull/2665>`__
+-  Add information to the recovery page (by @MartinFournier)PR
+   #\ `2664 <https://github.com/danielyxie/bitburner/pull/2664>`__
+-  Remove extraneous line breaks from buttons (by @nickofolas)PR
+   #\ `2660 <https://github.com/danielyxie/bitburner/pull/2660>`__
+-  Fix issues with timestamps on same line as clickable script rows in
+   ``ls`` (by @smolgumball)PR
+   #\ `2658 <https://github.com/danielyxie/bitburner/pull/2658>`__
+-  Remove dependents from cache when dependency updated (by
+   @theit8514)PR
+   #\ `2657 <https://github.com/danielyxie/bitburner/pull/2657>`__
+-  Minor fix to growth parameter description (by @SagePtr)PR
+   #\ `2656 <https://github.com/danielyxie/bitburner/pull/2656>`__
+-  Fix “travel” achievement icon (by @SagePtr)PR
+   #\ `2655 <https://github.com/danielyxie/bitburner/pull/2655>`__
+-  Bound log windows to screen (by @SlyCedix)PR
+   #\ `2654 <https://github.com/danielyxie/bitburner/pull/2654>`__
+-  Refactor ``for ... in`` loops (by @nickofolas)PR
+   #\ `2653 <https://github.com/danielyxie/bitburner/pull/2653>`__
+-  Corp api updates (by @pigalot)PR
+   #\ `2618 <https://github.com/danielyxie/bitburner/pull/2618>`__
+
 v1.3.0 - 2022-01-04 Cleaning up
 -------------------------------
 

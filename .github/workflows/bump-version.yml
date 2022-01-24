@@ -81,5 +81,5 @@ jobs:
           source_branch: "bump/v${{ github.event.inputs.version }}"
           destination_branch: "dev"
           pr_title: "Bump version to v${{ github.event.inputs.version }}"
-          pr_body: ${{ github.event.commits[0].message }}
+          pr_body: "${{ github.event.commits[0].message }}"
           github_token: ${{ secrets.GITHUB_TOKEN }}

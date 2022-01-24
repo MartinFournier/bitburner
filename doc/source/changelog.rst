@@ -3,6 +3,17 @@
 Changelog
 =========
 
+v1.8.0 - Big test
+-------------------------------
+
+** UI **
+* Stuff
+* Stuff 2
+* Stuff 3
+
+** Bug fix **
+Nerf n00dles
+
 v1.3.0 - 2022-01-04 Cleaning up
 -------------------------------
 

@@ -80,5 +80,5 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: "Bump version to v${{ github.event.inputs.version }}"
-          body: "{{ steps.COMMIT_STEP.commitMessage }}"
-          target_branch: 'dev'
+          body: "${{ steps.COMMIT_STEP.commitMessage }}"
+          run: echo ${{ steps.COMMIT_STEP.commitMessage }}

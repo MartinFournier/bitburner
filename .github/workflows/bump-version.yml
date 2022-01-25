@@ -77,7 +77,9 @@ jobs:
           # COMMITMESSAGE="${COMMITMESSAGE//$'\n'/'%0A'}"
           # COMMITMESSAGE="${COMMITMESSAGE//$'\r'/'%0D'}"
           COMMITMESSAGE="${COMMITMESSAGE//\"/\\\"}"
+          COMMITMESSAGE="${COMMITMESSAGE//\'/\\\'}"
           echo "::set-output name=COMMIT_MESSAGE::$COMMITMESSAGE"
+          echo $COMMITMESSAGE
       - name: Create Pull Request
         run: |
           curl -v \
@@ -86,7 +88,7 @@ jobs:
             --header 'authorization: token ${{ secrets.GITHUB_TOKEN }}' \
             --header 'content-type: application/json' \
             --data '{
-              "head": "bump/v${{ github.event.inputs.version }}",
+              "head": "bump/v${{ github.event.inputs.version }}", \
               "base":"${{ github.ref_name }}", \
               "title": "Bump version to v${{ github.event.inputs.version }}", \
               "body: "${{ steps.commit.outputs.COMMIT_MESSAGE }}"

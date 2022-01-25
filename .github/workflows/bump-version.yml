@@ -35,7 +35,6 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      repo: write
     steps:
       - name: Install pandoc dependency
         run: sudo apt-get install -y pandoc

@@ -31,7 +31,7 @@ It requires the "gist" scope as the result is pushed to a secret gist.
 ```sh
 cd ./tools/fetch-changelog
 npm install
-export GITHUB_TOKEN=tokenhere # this could go into your .bashrc or .profile etc.
+export GITHUB_API_TOKEN=tokenhere # this could go into your .bashrc or .profile etc.
 node index.js --from=31ebdbb139981a604bd0e8fc1e364916762e11b9 > ../bump-version/changes.md
 ```
 

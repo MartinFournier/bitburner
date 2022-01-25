@@ -234,7 +234,7 @@ ${commitLines.join('\n')}
   }
 }
 
-const api = new MergeChangelog({ auth: process.env.GITHUB_TOKEN });
+const api = new MergeChangelog({ auth: process.env.GITHUB_API_TOKEN });
 api.getChangelog(cliArgs.from, cliArgs.to, cliArgs.detailed).then((data) => {
   console.log(data.log);
 });

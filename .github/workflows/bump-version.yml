@@ -72,17 +72,21 @@ jobs:
           cat ./tools/bump-version/changes.md >> commitmessage.txt
           git commit -F commitmessage.txt
           git push -u origin bump/v${{ github.event.inputs.version }}
-          echo "::set-output name=COMMIT_MESSAGE::$(<commitmessage.txt)"
+          COMMITMESSAGE="$(<commitmessage.txt)"
+          COMMITMESSAGE="${COMMITMESSAGE//'%'/'%25'}"
+          COMMITMESSAGE="${COMMITMESSAGE//$'\n'/'%0A'}"
+          COMMITMESSAGE="${COMMITMESSAGE//$'\r'/'%0D'}"
+          echo "::set-output name=COMMIT_MESSAGE::$COMMITMESSAGE"
       - name: Create Pull Request
         run: |
-          curl --request POST \
-          --url https://api.github.com/repos/${{ github.repository }}/pulls \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json' \
-          --data '{
+          curl -v \
+            --request POST \
+            --url https://api.github.com/repos/${{ github.repository }}/pulls \
+            --header 'authorization: token ${{ secrets.GITHUB_TOKEN }}' \
+            --header 'content-type: application/json' \
+            --data '{
               "head": "bump/v${{ github.event.inputs.version }}",
               "base":"${{ github.ref_name }}", \
               "title": "Bump version to v${{ github.event.inputs.version }}", \
               "body: "${{ steps.commit.outputs.COMMIT_MESSAGE }}"
-            }' \
-          --fail
+            }'

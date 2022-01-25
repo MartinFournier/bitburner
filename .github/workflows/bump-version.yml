@@ -75,7 +75,7 @@ jobs:
       - name: Create Pull Request
         run: |
           gh pr create \
-            --base "${{ github.ref_name }}"" \
+            --base "${{ github.ref_name }}" \
             --head "bump/v${{ github.event.inputs.version }}" \
             --title "Bump version to v${{ github.event.inputs.version }}" \
             --body-file commitmessage.txt

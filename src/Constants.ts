@@ -111,8 +111,8 @@ export const CONSTANTS: {
   TotalNumBitNodes: number;
   LatestUpdate: string;
 } = {
-  VersionString: "1.4.0",
-  VersionNumber: 10,
+  VersionString: "1.12.0",
+  VersionNumber: 11,
 
   // Speed (in ms) at which the main loop is updated
   _idleSpeed: 200,
@@ -273,22 +273,25 @@ export const CONSTANTS: {
   TotalNumBitNodes: 24,
 
   LatestUpdate: `
-    v1.4.0 - 2022-01-18 Sharing is caring
-    -------------------------------------
+    <h2 id="v1.6.0---2022-01-17-to-2022-01-21---buncha-stuff">v1.6.0 - 2022-01-17 to 2022-01-21 - Buncha stuff!</h2>
+    <h4 id="information">Information</h4>
+    <p>Modifications included between <strong>2022-01-17</strong> and <strong>2022-01-21</strong> (<code>31ebdbb</code> to <code>07fe3c1</code>).</p>
+    <p><em><a href="https://github.com/search?q=user%3Adanielyxie%20repo%3Abitburner%20is%3Apr%20is%3Amerged%20merged%3A%222022-01-17T18%3A16%3A03.000Z..2022-01-21T04%3A53%3A33.000Z%22">See Pull Requests on GitHub</a></em></p>
+    <h4 id="merged-pull-requests">Merged Pull Requests</h4>
+    <ul>
+    <li>Nerf noodle bar.</li>
+    <li>Nerf noodle bar.</li>
+    <li>Nerf noodle bar.</li>
+    <li>Nerf noodle bar.</li>
+    <li>Nerf noodle bar.</li>
+    <li>Nerf noodle bar.</li>
+    <li>Nerf noodle bar.</li>
+    <li>Nerf noodle bar.</li>
+    </ul>
+    <h4 id="other-changes">Other Changes</h4>
+    <ul>
+    <li>Nerf noodle bar.</li>
+    </ul>
 
-    ** Computer sharing **
-
-    * A new mechanic has been added, it's is invoked by calling the new function 'share'.
-      This mechanic helps you farm reputation faster.
-
-    ** gang **
-
-    * Installing augs means losing a little bit of ascension multipliers.
-
-    ** There's more but I'm going to write it later. **
-
-    ** Misc. **
-
-    * Nerf noodle bar.
 `,
 };

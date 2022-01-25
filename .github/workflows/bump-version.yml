@@ -87,8 +87,8 @@ jobs:
       - name: Prepare release
         if: ${{ github.event.inputs.prepareRelease == 'true' }}
         run: \
-          RELEASE_TITLE=$(head -n 1 ./tools/bump-version/changes.md | sed 's/## //')
-          RELEASE_TITLE=${RELEASE_TITLE:-v${{ github.event.inputs.version }}}
+          RELEASE_TITLE="$(head -n 1 ./tools/bump-version/changes.md | sed 's/## //')"
+          RELEASE_TITLE="${RELEASE_TITLE:-v${{ github.event.inputs.version }}}"
           gh release create \
             v${{ github.event.inputs.version }} \
             --target dev \

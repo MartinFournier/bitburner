@@ -63,7 +63,7 @@ jobs:
         if: ${{ github.event.inputs.buildDoc == 'true' }}
         run: npm run doc
       - name: commit
-        id: COMMIT_STEP
+        id: commit
         run: |
           git config --global user.name "GitHub"
           git config --global user.email "noreply@github.com"
@@ -74,7 +74,7 @@ jobs:
           cat ./tools/bump-version/changes.md >> commitmessage.txt
           git commit -F commitmessage.txt
           git push -u origin bump/v${{ github.event.inputs.version }}
-          rm commitmessage.txt
+          echo "::set-output name=COMMIT_MESSAGE::$(<commitmessage.txt)"
       - name: Create Pull Request
         run: |
           curl --request POST \
@@ -83,8 +83,8 @@ jobs:
           --header 'content-type: application/json' \
           --data '{
               "head": "bump/v${{ github.event.inputs.version }}",
-              "base":"$GITHUB_REF_NAME", \
+              "base":"${{ github.ref_name }}", \
               "title": "Bump version to v${{ github.event.inputs.version }}" \
-              "body: "$(cat commitmessage.txt)"
+              "body: "${{ steps.commit.outputs.COMMIT_MESSAGE }}"
             }' \
           --fail

@@ -73,9 +73,10 @@ jobs:
           git commit -F commitmessage.txt
           git push -u origin bump/v${{ github.event.inputs.version }}
           COMMITMESSAGE="$(<commitmessage.txt)"
-          COMMITMESSAGE="${COMMITMESSAGE//'%'/'%25'}"
-          COMMITMESSAGE="${COMMITMESSAGE//$'\n'/'%0A'}"
-          COMMITMESSAGE="${COMMITMESSAGE//$'\r'/'%0D'}"
+          # COMMITMESSAGE="${COMMITMESSAGE//'%'/'%25'}"
+          # COMMITMESSAGE="${COMMITMESSAGE//$'\n'/'%0A'}"
+          # COMMITMESSAGE="${COMMITMESSAGE//$'\r'/'%0D'}"
+          COMMITMESSAGE="${COMMITMESSAGE//\"/\\\"}"
           echo "::set-output name=COMMIT_MESSAGE::$COMMITMESSAGE"
       - name: Create Pull Request
         run: |

@@ -51,8 +51,6 @@ jobs:
         run: |
           curl ${{ github.event.inputs.changelog }} > changes.md
           node index.js --version=${{ github.event.inputs.version }} --versionNumber=${{ github.event.inputs.versionNumber }} < changes.md
-      - name: Print basic git diff
-        run: git diff
       - name: Install NPM dependencies for app
         if: ${{ github.event.inputs.buildApp == 'true' || github.event.inputs.buildDoc == 'true' }}
         run: npm ci
@@ -84,7 +82,7 @@ jobs:
           --data '{
               "head": "bump/v${{ github.event.inputs.version }}",
               "base":"${{ github.ref_name }}", \
-              "title": "Bump version to v${{ github.event.inputs.version }}" \
+              "title": "Bump version to v${{ github.event.inputs.version }}", \
               "body: "${{ steps.commit.outputs.COMMIT_MESSAGE }}"
             }' \
           --fail

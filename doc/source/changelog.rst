@@ -3,6 +3,35 @@
 Changelog
 =========
 
+[draft] v1.x.x - 2022-01-17 to 2022-01-21
+-----------------------------------------
+
+Information
+^^^^^^^^^^^
+
+Modifications included between **2022-01-17** and **2022-01-21**
+(``31ebdbb`` to ``07fe3c1``).
+
+`See Pull Requests on
+GitHub <https://github.com/search?q=user%3Adanielyxie%20repo%3Abitburner%20is%3Apr%20is%3Amerged%20merged%3A%222022-01-17T18%3A16%3A03.000Z..2022-01-21T04%3A53%3A33.000Z%22>`__
+
+Merged Pull Requests
+^^^^^^^^^^^^^^^^^^^^
+
+-  Nerf noodle bar.
+-  Nerf noodle bar.
+-  Nerf noodle bar.
+-  Nerf noodle bar.
+-  Nerf noodle bar.
+-  Nerf noodle bar.
+-  Nerf noodle bar.
+-  Nerf noodle bar.
+
+Other Changes
+^^^^^^^^^^^^^
+
+-  Nerf noodle bar.
+
 v1.3.0 - 2022-01-04 Cleaning up
 -------------------------------
 

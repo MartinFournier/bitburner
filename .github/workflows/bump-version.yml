@@ -73,6 +73,8 @@ jobs:
           git commit -F commitmessage.txt
           git push -u origin bump/v${{ github.event.inputs.version }}
       - name: Create Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr create \
             --base "${{ github.ref_name }}" \

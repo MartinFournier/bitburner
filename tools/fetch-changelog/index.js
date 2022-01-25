@@ -225,7 +225,7 @@ ${commitLines.join('\n')}
     if (simple) {
       return `* ` +
         `${pr.title} (by @${pr.user.login})` +
-        `PR #[${pr.number}](${pr.url})`;
+        ` PR #[${pr.number}](${pr.url})`;
     } else {
       return `* [${pr.merge_commit_sha.slice(0, 7)}](${basePath}/commit/${pr.merge_commit_sha}) | ` +
         `${pr.title} ([@${pr.user.login}](${pr.user.url}))` +

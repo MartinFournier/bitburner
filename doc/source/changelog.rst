@@ -3,6 +3,16 @@
 Changelog
 =========
 
+[draft] v1.x.x - 2022-01-21
+---------------------------
+
+\*\* Information \*\*
+
+Modifications included between 2022-01-16 and 2022-01-21 ( to ).
+
+-  update to prevent scam
+-  Corp api updates
+
 v1.3.0 - 2022-01-04 Cleaning up
 -------------------------------
 

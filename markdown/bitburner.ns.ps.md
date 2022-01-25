@@ -48,7 +48,7 @@ for (let i = 0; i < scripts.length; ++i) {
 ```ts
 // NS2:
 const ps = ns.ps("home");
-for (let script of ps) {
+for (script of ps) {
     ns.tprint(`${script.filename} ${ps[i].threads}`);
     ns.tprint(script.args);
 }

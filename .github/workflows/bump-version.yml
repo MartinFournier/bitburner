@@ -22,6 +22,11 @@ on:
         type: boolean
         default: 'true'
         required: true
+      prepareRelease:
+        description: 'Prepare Draft Release'
+        type: boolean
+        default: 'true'
+        required: true
 
 jobs:
   bumpVersion:
@@ -30,6 +35,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      repo: write
     steps:
       - name: Install pandoc dependency
         run: sudo apt-get install -y pandoc
@@ -79,3 +85,15 @@ jobs:
             --head "bump/v${{ github.event.inputs.version }}" \
             --title "Bump version to v${{ github.event.inputs.version }}" \
             --body-file ./tools/bump-version/changes.md
+      - name: Prepare release
+        if: ${{ github.event.inputs.prepareRelease == 'true' }}
+        run: \
+          RELEASE_TITLE="$(head -n 1 ./tools/bump-version/changes.md | sed 's/## //')"
+          RELEASE_TITLE="${RELEASE_TITLE:-v${{ github.event.inputs.version }}}"
+          gh release create \
+            v${{ github.event.inputs.version }} \
+            --target dev \
+            --title "$RELEASE_TITLE" \
+            --notes-file ./tools/bump-version/changes.md \
+            --generate-notes \
+            --draft

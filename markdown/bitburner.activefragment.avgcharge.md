@@ -4,7 +4,7 @@
 
 ## ActiveFragment.avgCharge property
 
-<b>Signature:</b>
+<b>Signature !!!!:</b>
 
 ```typescript
 avgCharge: number;

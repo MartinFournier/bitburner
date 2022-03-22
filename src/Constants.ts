@@ -111,7 +111,7 @@ export const CONSTANTS: {
   TotalNumBitNodes: number;
   LatestUpdate: string;
 } = {
-  VersionString: "1.5.0",
+  VersionString: "1.6.0",
   VersionNumber: 11,
 
   // Speed (in ms) at which the main loop is updated

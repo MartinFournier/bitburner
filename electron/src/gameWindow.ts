@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { app, BrowserWindow } = require("electron");
-const log = require("electron-log");
-const utils = require("./utils");
-const achievements = require("./achievements");
-const menu = require("./menu");
-const api = require("./api-server");
-const cp = require("child_process");
-const path = require("path");
-const fs = require("fs");
-const { windowTracker } = require("./windowTracker");
-const { fileURLToPath } = require("url");
+import { app, BrowserWindow } from "electron";
+import log from "electron-log";
+import * as utils from "./utils";
+import * as achievements from "./achievements";
+import * as menu from "./menu";
+import * as  api from "./apiServer";
+import cp from "child_process";
+import path from "path";
+import fs from "fs";
+import { windowTracker } from "./windowTracker";
+import { fileURLToPath } from "url";
 
 const debug = process.argv.includes("--debug");
 
-async function createWindow(killall) {
-  const setStopProcessHandler = global.app_handlers.stopProcess;
+async function createWindow(killall: boolean): Promise<BrowserWindow> {
+  const setStopProcessHandler = global.appHandlers.stopProcess;
   app.setAppUserModelId("Bitburner");
 
   let icon;
@@ -26,7 +26,6 @@ async function createWindow(killall) {
   const window = new BrowserWindow({
     icon,
     show: false,
-    backgroundThrottling: false,
     backgroundColor: "#000000",
     title: "Bitburner",
     x: tracker.state.x,
@@ -45,7 +44,7 @@ async function createWindow(killall) {
   if (tracker.state.isMaximized) window.maximize();
 
   window.removeMenu();
-  noScripts = killall ? { query: { noScripts: killall } } : {};
+  const noScripts = killall ? { query: { noScripts: killall } } : {};
   window.loadFile("index.html", noScripts);
   window.show();
   if (debug) window.webContents.openDevTools();

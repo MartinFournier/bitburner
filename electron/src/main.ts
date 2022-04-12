@@ -1,15 +1,13 @@
-/* eslint-disable no-process-exit */
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { app, dialog, BrowserWindow, ipcMain } = require("electron");
-const log = require("electron-log");
-const greenworks = require("./greenworks");
-const api = require("./api-server");
-const gameWindow = require("./gameWindow");
-const achievements = require("./achievements");
-const utils = require("./utils");
-const storage = require("./storage");
-const debounce = require("lodash/debounce");
-const Config = require("electron-config");
+import { app, dialog, BrowserWindow, ipcMain } from "electron";
+import log from "electron-log";
+import greenworks from "../lib/greenworks";
+import * as api from "./apiServer";
+import * as gameWindow from "./gameWindow";
+import * as achievements from "./achievements";
+import * as utils from "./utils";
+import * as storage from "./storage";
+import debounce from "lodash/debounce";
+import Config from "electron-store";
 const config = new Config();
 
 log.transports.file.level = config.get("file-log-level", "info");
@@ -215,7 +213,7 @@ function setStopProcessHandler(app, window, enabled) {
   }
 }
 
-async function startWindow(noScript) {
+async function startWindow(noScript: boolean) {
   return gameWindow.createWindow(noScript);
 }
 

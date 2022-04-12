@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { app, Menu, clipboard, dialog, shell } = require("electron");
-const log = require("electron-log");
-const Config = require("electron-config");
-const api = require("./api-server");
-const utils = require("./utils");
-const storage = require("./storage");
+import { app, Menu, clipboard, dialog, shell } from "electron";
+import log from "electron-log";
+import Config from "electron-store";
+import * as api from "./apiServer";
+import * as utils from "./utils";
+import * as storage from "./storage";
 const config = new Config();
 
 function getMenu(window) {

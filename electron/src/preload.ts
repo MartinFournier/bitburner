@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { ipcRenderer, contextBridge } = require("electron");
-const log = require("electron-log");
+import { ipcRenderer, contextBridge } from "electron";
+import log from "electron-log";
 
 contextBridge.exposeInMainWorld("electronBridge", {
   send: (channel, data) => {
@@ -30,7 +30,7 @@ contextBridge.exposeInMainWorld("electronBridge", {
     ];
     if (validChannels.includes(channel)) {
       // Deliberately strip event as it includes `sender`
-      ipcRenderer.on(channel, (event, ...args) => func(...args));
+      ipcRenderer.on(channel, (_, ...args) => func(...args));
     }
   },
 });

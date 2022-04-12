@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { app, dialog, shell } = require("electron");
-const log = require("electron-log");
+import { app, dialog, shell, BrowserWindow } from "electron";
+import log from "electron-log";
 
-const achievements = require("./achievements");
-const api = require("./api-server");
+import * as achievements from "./achievements";
+import * as api from "./apiServer";
 
-const Config = require("electron-config");
+import Config from "electron-store";
 const config = new Config();
 
-function reloadAndKill(window, killScripts) {
-  const setStopProcessHandler = global.app_handlers.stopProcess;
-  const createWindowHandler = global.app_handlers.createWindow;
+export function reloadAndKill(window: BrowserWindow, killScripts: boolean): void {
+  const setStopProcessHandler = global.appHandlers.stopProcess;
+  const createWindowHandler = global.appHandlers.createWindow;
 
   log.info("Reloading & Killing all scripts...");
   setStopProcessHandler(app, window, false);
@@ -28,7 +28,7 @@ function reloadAndKill(window, killScripts) {
   window.close();
 }
 
-function promptForReload(window) {
+export function promptForReload(window: BrowserWindow): void {
   detachUnresponsiveAppHandler(window);
   dialog
     .showMessageBox({
@@ -53,20 +53,20 @@ function promptForReload(window) {
     });
 }
 
-function attachUnresponsiveAppHandler(window) {
+export function attachUnresponsiveAppHandler(window: GameBrowserWindow) : void{
   window.unresponsiveHandler = () => promptForReload(window);
   window.on("unresponsive", window.unresponsiveHandler);
 }
 
-function detachUnresponsiveAppHandler(window) {
+export function detachUnresponsiveAppHandler(window: BrowserWindow): void {
   window.off("unresponsive", window.unresponsiveHandler);
 }
 
-function showErrorBox(title, error) {
+export function showErrorBox(title: string, error: Error): void {
   dialog.showErrorBox(title, `${error.name}\n\n${error.message}`);
 }
 
-function exportSaveFromIndexedDb() {
+export function exportSaveFromIndexedDb(): Promise<void> {
   return new Promise((resolve) => {
     const dbRequest = indexedDB.open("bitburnerSave");
     dbRequest.onsuccess = () => {
@@ -92,46 +92,33 @@ function exportSaveFromIndexedDb() {
   });
 }
 
-async function exportSave(window) {
+export async function exportSave(window: BrowserWindow): Promise<void> {
   await window.webContents.executeJavaScript(`${exportSaveFromIndexedDb.toString()}; exportSaveFromIndexedDb();`, true);
 }
 
-async function writeTerminal(window, message, type = null) {
+export async function writeTerminal(window: BrowserWindow, message: string, type = null) : Promise<void>{
   await window.webContents.executeJavaScript(`window.appNotifier.terminal("${message}", "${type}");`, true);
 }
 
-async function writeToast(window, message, type = "info", duration = 2000) {
+export async function writeToast(window: BrowserWindow, message: string, type = "info", duration = 2000): Promise<void> {
   await window.webContents.executeJavaScript(`window.appNotifier.toast("${message}", "${type}", ${duration});`, true);
 }
 
-function openExternal(url) {
+export function openExternal(url: string): void {
   shell.openExternal(url);
   global.app_playerOpenedExternalLink = true;
 }
 
-function getZoomFactor() {
+export function getZoomFactor(): number {
   const configZoom = config.get("zoom", 1);
   return configZoom;
 }
 
-function setZoomFactor(window, zoom = null) {
-  if (zoom === null) {
+export function setZoomFactor(window: BrowserWindow, zoom?: number): void{
+  if (!zoom) {
     zoom = 1;
   } else {
     config.set("zoom", zoom);
   }
   window.webContents.setZoomFactor(zoom);
 }
-
-module.exports = {
-  reloadAndKill,
-  showErrorBox,
-  exportSave,
-  attachUnresponsiveAppHandler,
-  detachUnresponsiveAppHandler,
-  openExternal,
-  writeTerminal,
-  writeToast,
-  getZoomFactor,
-  setZoomFactor,
-};

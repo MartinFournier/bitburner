@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const greenworks = require("./greenworks");
-const log = require("electron-log");
+import greenworks from "../lib/greenworks";
+import log from "electron-log";
+import { GameBrowserWindow } from "./@types/global";
 
-async function enableAchievementsInterval(window) {
+export async function enableAchievementsInterval(gameWindow: GameBrowserWindow): Promise<void> {
   // If the Steam API could not be initialized on game start, we'll abort this.
   if (global.greenworksError) return;
 
@@ -12,9 +12,9 @@ async function enableAchievementsInterval(window) {
   log.silly(`All Steam achievements ${JSON.stringify(steamAchievements)}`);
   const playerAchieved = (await Promise.all(steamAchievements.map(checkSteamAchievement))).filter((name) => !!name);
   log.debug(`Player has Steam achievements ${JSON.stringify(playerAchieved)}`);
-  const intervalID = setInterval(async () => {
+  const intervalID = window.setInterval(async () => {
     try {
-      const playerAchievements = await window.webContents.executeJavaScript("document.achievements");
+      const playerAchievements = await gameWindow.webContents.executeJavaScript("document.achievements");
       for (const ach of playerAchievements) {
         if (!steamAchievements.includes(ach)) continue; // Don't try activating achievements that don't exist Steam-side
         if (playerAchieved.includes(ach)) continue; // Don't spam achievements that have already been recorded
@@ -31,10 +31,10 @@ async function enableAchievementsInterval(window) {
       return;
     }
   }, 1000);
-  window.achievementsIntervalID = intervalID;
+  gameWindow.achievementsIntervalID = intervalID;
 }
 
-function checkSteamAchievement(name) {
+function checkSteamAchievement(name: string) {
   return new Promise((resolve) => {
     greenworks.getAchievement(
       name,
@@ -47,13 +47,8 @@ function checkSteamAchievement(name) {
   });
 }
 
-function disableAchievementsInterval(window) {
+export function disableAchievementsInterval(window: GameBrowserWindow): void {
   if (window.achievementsIntervalID) {
     clearInterval(window.achievementsIntervalID);
   }
 }
-
-module.exports = {
-  enableAchievementsInterval,
-  disableAchievementsInterval,
-};

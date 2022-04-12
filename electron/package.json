@@ -24,8 +24,8 @@
     "buildResources": "public"
   },
   "dependencies": {
-    "electron-config": "^2.0.0",
     "electron-log": "^4.4.4",
+    "electron-store": "^8.0.1",
     "lodash": "^4.17.21"
   }
 }

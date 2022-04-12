@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { screen } = require("electron");
-const log = require("electron-log");
-const debounce = require("lodash/debounce");
-const Config = require("electron-config");
+import { screen } from "electron";
+import log from "electron-log";
+import debounce from "lodash/debounce";
+import Config from "electron-store";
 const config = new Config();
 
 // https://stackoverflow.com/a/68627253
-const windowTracker = (windowName) => {
+export const windowTracker = (windowName) => {
   let window, windowState;
 
   const setBounds = () => {
@@ -64,5 +64,3 @@ const windowTracker = (windowName) => {
     track,
   };
 };
-
-module.exports = { windowTracker };

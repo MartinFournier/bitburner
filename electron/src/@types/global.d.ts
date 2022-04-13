@@ -14,8 +14,7 @@ export type AppHandlersFunctions = {
 /* eslint-disable no-var */
 declare global {
   var appHandlers: AppHandlersFunctions
-  var greenworksError: boolean
+  var greenworksError: string
 }
-
 
 export {};

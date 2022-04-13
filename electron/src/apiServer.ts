@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import http from "http";
 import crypto from "crypto";
 import log from "electron-log";
 import Config from "electron-store";
+import { GameBrowserWindow } from "./@types/global";
 const config = new Config();
 
-let server;
-let window;
+let server: http.Server;
+let window: GameBrowserWindow;
 
-async function initialize(win) {
+export async function initialize(win: GameBrowserWindow): Promise<void> {
   window = win;
   server = http.createServer(async function (req, res) {
     let body = "";
@@ -112,14 +112,14 @@ async function initialize(win) {
   return Promise.resolve();
 }
 
-function enable() {
+export function enable(): Promise<boolean> {
   if (isListening()) {
     log.warn("API server already listening");
-    return Promise.resolve();
+    return Promise.resolve(false);
   }
 
-  const port = config.get("port", 9990);
-  const host = config.get("host", "127.0.0.1");
+  const port = config.get("port", 9990) as number;
+  const host = config.get("host", "127.0.0.1") as string;
   log.log(`Starting http server on port ${port} - listening on ${host}`);
 
   // https://stackoverflow.com/a/62289870
@@ -128,7 +128,7 @@ function enable() {
     server.listen(port, host, () => {
       if (!startFinished) {
         startFinished = true;
-        resolve();
+        resolve(true);
       }
     });
     server.once("error", (err) => {
@@ -141,17 +141,17 @@ function enable() {
   });
 }
 
-function disable() {
+export function disable(): Promise<boolean> {
   if (!isListening()) {
     log.warn("API server not listening");
-    return Promise.resolve();
+    return Promise.resolve(false);
   }
 
   log.log("Stopping http server");
-  return server.close();
+  return new Promise((resolve) => server.close(() => resolve(true)));
 }
 
-function toggleServer() {
+export function toggleServer(): Promise<boolean> {
   if (isListening()) {
     return disable();
   } else {
@@ -159,41 +159,30 @@ function toggleServer() {
   }
 }
 
-function isListening() {
+export function isListening(): boolean {
   return server?.listening ?? false;
 }
 
-function toggleAutostart() {
+export function toggleAutostart(): void {
   const newValue = !isAutostart();
   config.set("autostart", newValue);
   log.log(`New autostart value is '${newValue}'`);
 }
 
-function isAutostart() {
-  return config.get("autostart");
+export function isAutostart(): boolean {
+  return config.get("autostart") as boolean;
 }
 
-function getAuthenticationToken() {
+export function getAuthenticationToken(): string {
   const token = config.get("token");
-  if (token) return token;
+  if (token) return token as string;
 
   const newToken = generateToken();
   config.set("token", newToken);
   return newToken;
 }
 
-function generateToken() {
+function generateToken(): string {
   const buffer = crypto.randomBytes(48);
   return buffer.toString("base64");
 }
-
-module.exports = {
-  initialize,
-  enable,
-  disable,
-  toggleServer,
-  toggleAutostart,
-  isAutostart,
-  getAuthenticationToken,
-  isListening,
-};

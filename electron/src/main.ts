@@ -10,8 +10,8 @@ import debounce from "lodash/debounce";
 import Config from "electron-store";
 const config = new Config();
 
-log.transports.file.level = config.get("file-log-level", "info");
-log.transports.console.level = config.get("console-log-level", "debug");
+log.transports.file.level = config.get("file-log-level", "info") as log.LevelOption;
+log.transports.console.level = config.get("console-log-level", "debug") as log.LevelOption;
 
 log.catchErrors();
 log.info(`Started app: ${JSON.stringify(process.argv)}`);
@@ -37,7 +37,7 @@ try {
 
 let isRestoreDisabled = false;
 
-function setStopProcessHandler(app, window, enabled) {
+function setStopProcessHandler(app, window, enabled: boolean): void {
   const closingWindowHandler = async (e) => {
     // We need to prevent the default closing event to add custom logic
     e.preventDefault();
@@ -96,14 +96,15 @@ function setStopProcessHandler(app, window, enabled) {
     }, 200);
   };
 
-  const clearWindowHandler = () => {
+  const clearWindowHandler = (): void => {
     window = null;
   };
 
-  const stopProcessHandler = () => {
+  const stopProcessHandler = (): void => {
     log.info("Quitting the app...");
     app.isQuiting = true;
     app.quit();
+    // eslint-disable-next-line no-process-exit
     process.exit(0);
   };
 

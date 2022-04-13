@@ -27,5 +27,8 @@
     "electron-log": "^4.4.4",
     "electron-store": "^8.0.1",
     "lodash": "^4.17.21"
+  },
+  "imports": {
+    "#greenworks": "./lib/greenworks.js"
   }
 }

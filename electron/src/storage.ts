@@ -3,24 +3,32 @@ import { app, ipcMain } from "electron";
 import zlib from "zlib";
 import path from "path";
 import fs from "fs/promises";
+import { Stats } from "fs";
 import { promisify } from "util";
 const gzip = promisify(zlib.gzip);
 const gunzip = promisify(zlib.gunzip);
 
 import greenworks from "../lib/greenworks";
+
 import log from "electron-log";
 import flatten from "lodash/flatten";
 import Config from "electron-store";
+import { GameBrowserWindow } from "./@types/global";
 const config = new Config();
 
+type FileStats = {
+  file: string; stat: Stats;
+}
+
+
 // https://stackoverflow.com/a/69418940
-const dirSize = async (directory) => {
+const dirSize = async (directory: string): Promise<number> => {
   const files = await fs.readdir(directory);
   const stats = files.map((file) => fs.stat(path.join(directory, file)));
   return (await Promise.all(stats)).reduce((accumulator, { size }) => accumulator + size, 0);
 };
 
-const getDirFileStats = async (directory) => {
+const getDirFileStats = async (directory: string): Promise<FileStats[]> => {
   const files = await fs.readdir(directory);
   const stats = files.map((f) => {
     const file = path.join(directory, f);
@@ -30,12 +38,12 @@ const getDirFileStats = async (directory) => {
   return data;
 };
 
-const getNewestFile = async (directory) => {
+const getNewestFile = async (directory: string): Promise<FileStats> => {
   const data = await getDirFileStats(directory);
   return data.sort((a, b) => b.stat.mtime.getTime() - a.stat.mtime.getTime())[0];
 };
 
-const getAllSaves = async (window) => {
+const getAllSaves = async (window: GameBrowserWindow): Promise<FileStats[]> => {
   const rootDirectory = await getSaveFolder(window, true);
   const data = await fs.readdir(rootDirectory, { withFileTypes: true });
   const savesPromises = data
@@ -47,14 +55,14 @@ const getAllSaves = async (window) => {
   return flat;
 };
 
-async function prepareSaveFolders(window) {
+async function prepareSaveFolders(window: GameBrowserWindow): Promise<void> {
   const rootFolder = await getSaveFolder(window, true);
   const currentFolder = await getSaveFolder(window);
   const backupsFolder = path.join(rootFolder, "/_backups");
   await prepareFolders(rootFolder, currentFolder, backupsFolder);
 }
 
-async function prepareFolders(...folders) {
+async function prepareFolders(...folders: string[]): Promise<void> {
   for (const folder of folders) {
     try {
       // Making sure the folder exists
@@ -72,41 +80,42 @@ async function prepareFolders(...folders) {
   }
 }
 
-async function getFolderSizeInBytes(saveFolder) {
+async function getFolderSizeInBytes(saveFolder: string): Promise<number> {
   try {
     return await dirSize(saveFolder);
   } catch (error) {
     log.error(error);
+    return 0;
   }
 }
 
-function setAutosaveConfig(value) {
+function setAutosaveConfig(value: boolean): void {
   config.set("autosave-enabled", value);
 }
 
-function isAutosaveEnabled() {
-  return config.get("autosave-enabled", true);
+function isAutosaveEnabled(): boolean {
+  return config.get("autosave-enabled", true) as boolean;
 }
 
-function setSaveCompressionConfig(value) {
+function setSaveCompressionConfig(value: boolean): void {
   config.set("save-compression-enabled", value);
 }
 
-function isSaveCompressionEnabled() {
-  return config.get("save-compression-enabled", true);
+function isSaveCompressionEnabled(): boolean {
+  return config.get("save-compression-enabled", true) as boolean;
 }
 
-function setCloudEnabledConfig(value) {
+function setCloudEnabledConfig(value: boolean): void {
   config.set("cloud-enabled", value);
 }
 
-async function getSaveFolder(window, root = false) {
+function getSaveFolder(window: GameBrowserWindow, root = false): string {
   if (root) return path.join(app.getPath("userData"), "/saves");
   const identifier = window.gameInfo?.player?.identifier ?? "";
   return path.join(app.getPath("userData"), "/saves", `/${identifier}`);
 }
 
-function isCloudEnabled() {
+function isCloudEnabled(): boolean {
   // If the Steam API could not be initialized on game start, we'll abort this.
   if (global.greenworksError) return false;
 
@@ -123,13 +132,13 @@ function isCloudEnabled() {
   return true;
 }
 
-function saveCloudFile(name, content) {
+function saveCloudFile(name, content): Promise<void> {
   return new Promise((resolve, reject) => {
     greenworks.saveTextToFile(name, content, resolve, reject);
   });
 }
 
-function getFirstCloudFile() {
+function getFirstCloudFile(): string {
   const nbFiles = greenworks.getFileCount();
   if (nbFiles === 0) throw new Error("No files in cloud");
   const file = greenworks.getFileNameAndSize(0);
@@ -138,14 +147,14 @@ function getFirstCloudFile() {
   return file.name;
 }
 
-function getCloudFile() {
+function getCloudFile(): Promise<string> {
   const file = getFirstCloudFile();
   return new Promise((resolve, reject) => {
     greenworks.readTextFromFile(file, resolve, reject);
   });
 }
 
-function deleteCloudFile() {
+function deleteCloudFile(): Promise<void> {
   const file = getFirstCloudFile();
   return new Promise((resolve, reject) => {
     greenworks.deleteFile(file, resolve, reject);
@@ -201,7 +210,7 @@ async function pushGameSaveToSteamCloud(base64save, currentPlayerId) {
   }
 }
 
-async function getSteamCloudSaveString() {
+async function getSteamCloudSaveString() : Promise<string> {
   if (!isCloudEnabled()) return Promise.reject("Steam Cloud is not Enabled");
   log.debug(`Fetching Save in Steam Cloud`);
   const cloudString = await getCloudFile();

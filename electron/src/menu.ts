@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { app, Menu, clipboard, dialog, shell } from "electron";
 import log from "electron-log";
 import Config from "electron-store";
